@@ -10,11 +10,12 @@ public class Production_Manager : MonoBehaviour
     public int productionDifficultyCount;
     public int productionPower;
     public ScoreManager scoreManagerRef;
+    public float productionDiffScale;
+    public Quantity_Formatter quantityFormatterRef;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        productionDifficultyCount = 1;
         productionPower = 1;
     }
 
@@ -23,17 +24,24 @@ public class Production_Manager : MonoBehaviour
     {
 
     }
-
-    public void buyProduction()
+  
+    public void BuyProduction()
     {
         if (scoreManagerRef.fameAmount > productionDifficultyCount)
         {
             scoreManagerRef.fameAmount -= productionDifficultyCount;
             scoreManagerRef.listenText.text = scoreManagerRef.fameAmount.ToString("00");
             productionAmount += 1;
-            productionText.text = productionAmount.ToString("00");
-            productionDifficultyCount = Mathf.RoundToInt(productionDifficultyCount * 2.5f);
+            productionText.text = productionAmount.ToString($"00");
+            productionDifficultyCount = Mathf.RoundToInt(productionDifficultyCount * productionDiffScale);
             scoreManagerRef.addFameAmount += productionPower;
         }
     }
+
+    //backups : 
+    //quantityFormatterRef.FormateQuantity(productionAmount);
+    //
+    //
+    //
+    //
 }
