@@ -11,13 +11,24 @@ public class ScoreManager : MonoBehaviour
     public int addFameAmount;
     public int eventDelay;
     public GameObject eventObject;
+    private int eventButtonXPos;
+    private int eventButtonYPos;
+    public RectTransform eventObjectTransformRef;
+    public Event_Button_Comportement eventScriptRef;
+    public int eventType;
+    public float addDelay;
+    public float eventProductionAdd;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        addDelay = 1f;
         clickPower = 1;
+        eventProductionAdd = 1f;
+        eventObject.SetActive(false);
         StartCoroutine(addFame());
-        StartCoroutine(EventCount());  
+        StartCoroutine(EventCount()); 
     }
 
     public void listen()
@@ -34,7 +45,15 @@ public class ScoreManager : MonoBehaviour
 
     public void ChangeEventDelay()
     {
-        eventDelay = Random.Range(50, 200);
+        eventScriptRef.ChooseEvent(eventType);
+        eventType = Random.Range(0, 3);
+
+        eventDelay = Random.Range(5, 6);
+
+        eventButtonXPos = Random.Range(-445, 400);
+        eventButtonYPos = Random.Range(-230, 200);
+        eventObjectTransformRef.anchoredPosition = new Vector2(eventButtonXPos, eventButtonYPos);  
+
         StartCoroutine(EventCount());
 
     }
@@ -43,7 +62,19 @@ public class ScoreManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f);
+            if (addDelay == 10)
+            {
+                yield return new WaitForSeconds(10);
+                addDelay = 1;
+            }
+            else if (addDelay == 0.5f)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(1);
+            }
             fameAmount += addFameAmount;
             listenText.text = fameAmount.ToString("00");
         }
