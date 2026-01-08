@@ -21,6 +21,7 @@ public class Production_Manager : MonoBehaviour
         productionSpriteRef.color = Color.black;
         textsContainerRef.SetActive(false);
         productionPower = 1;
+        scoreManagerRef.eventProductionAdd = 1f;
     }
 
     // Update is called once per frame
