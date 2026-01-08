@@ -15,7 +15,6 @@ public class ScoreManager : MonoBehaviour
     private int eventButtonXPos;
     private int eventButtonYPos;
     public RectTransform eventObjectTransformRef;
-    public Event_Button_Comportement eventScriptRef;
     public int eventType;
     public float addDelay;
     public List<Event_List> eventTypeList;
@@ -23,11 +22,20 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI eventText;
     public Image eventImage;
     public float eventProductionAdd;
+    private int eventDuration;
+    private int ameDiffCount;
+    public int ameCount;
+    public TextMeshProUGUI ameText;
+    public TextMeshProUGUI ameCostText;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        ameDiffCount = 300;
+        listenText.text = fameAmount.ToString("00");
+        ameText.text = ameCount.ToString($"00");
+        ameCostText.text = ameDiffCount.ToString($"Coute : 00 pts");
         addDelay = 1f;
         clickPower = 1;
         eventObject.SetActive(false);
@@ -37,8 +45,7 @@ public class ScoreManager : MonoBehaviour
         currentEventType = eventTypeList[eventType];
         eventText.text = currentEventType.eventText;
         eventImage.sprite = currentEventType.eventSprite;
-        
-        
+        eventDuration = 10;
     }
 
     public void listen()
@@ -60,17 +67,15 @@ public class ScoreManager : MonoBehaviour
 
     public void ChangeEventDelay()
     {
-        
-        ChooseEvent(eventType);
-        eventType = Random.Range(0, 3);
 
-        eventDelay = Random.Range(5, 6);
+        ChooseEvent(eventType);
+        eventType = Random.Range(0, 8);
+
+        eventDelay = eventDuration + Random.Range(5, 6);
         currentEventType = eventTypeList[eventType];
         eventButtonXPos = Random.Range(-445, 400);
         eventButtonYPos = Random.Range(-230, 200);
         eventObjectTransformRef.anchoredPosition = new Vector2(eventButtonXPos, eventButtonYPos);
-        
-
         StartCoroutine(EventCount());
 
     }
@@ -81,7 +86,7 @@ public class ScoreManager : MonoBehaviour
         {
             if (addDelay == 10)
             {
-                yield return new WaitForSeconds(10);
+                yield return new WaitForSeconds(eventDuration);
                 addDelay = 1;
             }
             else if (addDelay == 0.5f)
@@ -105,7 +110,7 @@ public class ScoreManager : MonoBehaviour
 
     public void ChooseEvent(int type)
     {
-       
+
 
         if (type == 0)
         {
@@ -155,29 +160,56 @@ public class ScoreManager : MonoBehaviour
         if (timeType == 0)
         {
             addDelay = 0.5f;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(eventDuration);
             addDelay = 1f;
         }
 
         if (timeType == 1)
         {
             addFameAmount *= 5;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(eventDuration);
             addFameAmount /= 5;
         }
 
         if (timeType == 2)
         {
             eventProductionAdd = 2f;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(eventDuration);
             eventProductionAdd = 1f;
         }
 
         if (timeType == 3)
         {
             eventProductionAdd = 0.5f;
-            yield return new WaitForSeconds(10);
+            yield return new WaitForSeconds(eventDuration);
             eventProductionAdd = 1f;
+        }
+    }
+
+    public void BuyAmelioration()
+    {
+        if(fameAmount > ameDiffCount)
+        {
+            eventDuration += 10;
+            ameCount++;
+            fameAmount -= ameDiffCount;
+            ameDiffCount *= 2;
+            ameText.text = ameCount.ToString($"00");
+            ameCostText.text = ameDiffCount.ToString($"Coute : 00 pts");
+        }
+    }
+
+    public void SellAmelioration()
+    {
+        if (fameAmount > ameDiffCount & (ameCount > 0))
+        {
+            eventDuration -= 10;
+            ameCount--;
+            fameAmount -= ameDiffCount;
+            ameDiffCount *= 2;
+            ameText.text = ameCount.ToString($"00");
+            ameCostText.text = ameDiffCount.ToString($"Coute : 00 pts");
+
         }
     }
 }

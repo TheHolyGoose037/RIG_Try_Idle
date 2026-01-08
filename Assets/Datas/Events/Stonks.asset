@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3aa02dbe5f86a114b89190867220a63d, type: 3}
-  m_Name: Speed
+  m_Name: Stonks
   m_EditorClassIdentifier: Assembly-CSharp::Event_List
-  eventType: 2
-  eventText: speed
-  eventSprite: {fileID: -2619007175797674343, guid: d6d5f8ea381ba90459cca0e0ac0e4716, type: 3}
+  eventType: 5
+  eventText: Stonks
+  eventSprite: {fileID: -7532414373819351063, guid: d6d5f8ea381ba90459cca0e0ac0e4716, type: 3}

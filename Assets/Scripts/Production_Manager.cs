@@ -14,6 +14,7 @@ public class Production_Manager : MonoBehaviour
     public Quantity_Formatter quantityFormatterRef;
     public Image productionSpriteRef;
     public GameObject textsContainerRef;
+    public TextMeshProUGUI costText;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -31,13 +32,14 @@ public class Production_Manager : MonoBehaviour
         {
             UnlockProduction();
         }
+        costText.text = productionDifficultyCount.ToString($"Coute : 00 pts");
     }
   
     public void BuyProduction()
     {
         if (scoreManagerRef.fameAmount > (productionDifficultyCount * scoreManagerRef.eventProductionAdd))
         {
-            scoreManagerRef.fameAmount -= productionDifficultyCount;
+            scoreManagerRef.fameAmount -= Mathf.RoundToInt(productionDifficultyCount * scoreManagerRef.eventProductionAdd);
             scoreManagerRef.listenText.text = scoreManagerRef.fameAmount.ToString("00");
             productionAmount += 1;
             productionText.text = productionAmount.ToString($"00");
