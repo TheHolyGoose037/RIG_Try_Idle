@@ -52,10 +52,6 @@ public class ScoreManager : MonoBehaviour
     {
         fameAmount += clickPower;
         listenText.text = fameAmount.ToString("00");
-        if (fameAmount < 0)
-        {
-            fameAmount = 0;
-        }
     }
 
     // Update is called once per frame
@@ -63,6 +59,10 @@ public class ScoreManager : MonoBehaviour
     {
         eventText.text = currentEventType.eventText;
         eventImage.sprite = currentEventType.eventSprite;
+        if (fameAmount < 0)
+        {
+            fameAmount = 0;
+        }
     }
 
     public void ChangeEventDelay()
